@@ -1,0 +1,15 @@
+﻿@model _27_11_23_asp.Pages.Shared.TypeModel.PaginationModel
+
+<div class="d-flex justify-content-center m-2">
+    @if (Model.PageIndex > 1)
+    {
+        <button type="submit" name="PageIndex" value="@(Model.PageIndex - 1)" class="btn-link">← Précédent</button>
+    }
+
+    <span>Page @Model.PageIndex</span>  
+
+    @if (Model.PageIndex < Model.TotalPages)
+    {
+        <button type="submit" name="PageIndex" value="@(Model.PageIndex + 1)" class="btn-link">Suivant →</button>
+    }
+</div>

@@ -1,0 +1,15 @@
+﻿@model _27_11_23_asp.Pages.Shared.TypeModel.FilterHeaderModel
+@{
+    var sortOrder = Context.Request.Query["sortOrder"].FirstOrDefault();
+    var isReverse = Context.Request.Query["reverse"].Any(x => x.Equals("true", StringComparison.CurrentCultureIgnoreCase));
+}
+@if (Model != null)
+{
+
+    <a asp-page="./Index"
+       asp-route-sortOrder="@(Model.SortProperty)"
+       asp-route-reverse="@(Model.SortProperty == sortOrder && !isReverse ? true : false)">
+        @Model.Name
+    </a>
+
+}

@@ -1,0 +1,161 @@
+﻿@page
+@model IndexModel
+@using Pages.Shared.TypeModel
+
+@{
+    ViewData["Title"] = "Index";
+    var fitlerModels = new List<FilterHeaderModel>()
+    {
+        new FilterHeaderModel()
+        {
+            Name = "Lastname",
+            SortProperty = "LastName"
+        },
+        new FilterHeaderModel()
+        {
+            Name = "Firstname",
+            SortProperty = "FirstName"
+        },
+        new FilterHeaderModel()
+        {
+            Name = "Email",
+            SortProperty = "Email"
+        },
+        new FilterHeaderModel()
+        {
+            Name = "IsPro",
+            SortProperty = "IsPro"
+        },
+        new FilterHeaderModel()
+        {
+            Name = "Groupe",
+            SortProperty = "Groupe"
+        },
+    };
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form method="get">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>
+                    <input asp-for="FiltredGroup" type="checkbox" class="form-check-input">
+                    Sans groupe
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input asp-for="FiltredPro" type="checkbox" class="form-check-input">
+                    Pro uniquement
+                </label>
+            </div>
+            <div class="form-group">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <select asp-for="PageSize" class="form-select">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <select class="form-control">
+                    <option value="">-- no Group selected--</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center m-2">
+        <input type="submit" value="Filtre" class="btn btn-primary col-2" />
+    </div>
+    <partial name ="Pagination" model=" new PaginationModel(){
+    PageIndex = Model.PageIndex,
+    TotalPages = Model.TotalPages
+}"/>
+    @* <div class="d-flex justify-content-center m-2">
+        @if (Model.PageIndex > 1)
+        {
+            <button type="submit" name="PageIndex" value="@(Model.PageIndex - 1)" class="btn-link">← Précédent</button>
+        }
+
+        <span>Page @Model.PageIndex</span>
+
+        @if (Model.PageIndex < Model.TotalPages)
+        {
+            <button type="submit" name="PageIndex" value="@(Model.PageIndex + 1)" class="btn-link">Suivant →</button>
+        }
+    </div> *@
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        @foreach (var filter in fitlerModels)
+        {
+            <th>
+                <partial name="FilterHeader" model="@(filter)"></partial>
+            </th>
+        }
+    @* <th>
+            @Html.DisplayNameFor(model => model.Contact[0].LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact[0].FirstName)
+        </th> 
+        <th>
+            @Html.DisplayNameFor(model => model.Contact[0].Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact[0].IsPro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contact[0].Groupe)
+        </th>
+        *@
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Contact) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPro)
+            </td>
+            <td>
+                @item.ContactGroup.Count Groupes :
+                @foreach (var group in item.ContactGroup)
+                {
+                    <span>@group.Groupe.Name</span>
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
